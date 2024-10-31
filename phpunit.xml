@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php" colors="true">
+    <testsuites>
+        <testsuite name="LogAction Plugin Tests">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <env name="WP_ENV" value="testing"/>
+        <env name="WP_PHPUNIT__DIR" value="vendor/wordpress/phpunit"/>
+    </php>
+
+    <ruleset name="My WordPress Project">
+    <description>WordPress Coding Standards for my project</description>
+    <rule ref="WordPress-Extra"/>
+    <rule ref="WordPress-Core">
+		<exclude name="WordPress.Files.FileName" />
+	</rule>
+    <rule ref="WordPress">
+        <!-- PSR4 -->
+        <exclude name="WordPress.Files.FileName" />
+    </rule>
+    <exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
+    
+    <exclude name="Squiz.WhiteSpace.FunctionSpacing"/>
+</ruleset>
+</phpunit>

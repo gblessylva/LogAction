@@ -1,0 +1,30 @@
+logaction/
+├── assets/                     # For images, icons, CSS, JS files
+│   ├── css/
+│   └── js/
+├── tests/
+|   |__ExampleTest.php  
+├── src/
+│   ├── Controllers/            # Handles main plugin functionalities
+│   │   ├── LogController.php
+│   │   └── SettingsController.php
+│   ├── Database/               # Database-related classes
+│   │   ├── DatabaseHandler.php # Trait or class for database operations
+│   │   └── LogEntry.php        # Log entry model
+│   ├── Interfaces/             # Interface definitions
+│   │   └── LoggerInterface.php
+│   ├── Traits/                 # Common reusable code, like Singleton trait
+│   │   └── SingletonTrait.php
+│   ├── Events/                 # Handles all event logging functionalities
+│   │   ├── LoginEvent.php
+│   │   ├── PostEvent.php
+│   │   └── CommentEvent.php
+│   ├── Utilities/              # Helper classes
+│   │   ├── Exporter.php        # For CSV export
+│   │   └── Logger.php          # Core logging functions implementing LoggerInterface
+│   └── LogAction.php           # Main plugin file
+├── templates/                  # Admin panel HTML templates
+│   └── settings-page.php
+├── vendor/                     # Composer dependencies (if needed)
+├── logaction.php               # Plugin bootstrap file
+└── uninstall.php               # Cleanup script for plugin uninstallation
