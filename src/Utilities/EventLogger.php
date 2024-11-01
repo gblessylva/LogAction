@@ -42,7 +42,12 @@ class EventLogger
 	{
 		$user = wp_get_current_user();
 		if ($user->ID) {
-			$event = new UserEvent('logout', (int) $user->ID, 'User logged out successfully');
+			$event = new UserEvent(
+				'logout', 
+				(int) $user->ID,
+				 'User logged out successfully',
+				 null
+				);
 			$this->logController->logAction($event);
 		}
 	}

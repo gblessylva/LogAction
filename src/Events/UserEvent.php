@@ -52,7 +52,7 @@ class UserEvent {
 	 * @param string $description  A description of the event.
 	 * @param int    $action_id    The action ID related to the event.
 	 */
-	public function __construct( string $event_type, int $user_id, string $description, int $action_id) {
+	public function __construct( string $event_type, int $user_id, string $description, ?int $action_id = 0 ) {
 		$this->event_type  = $event_type;
 		$this->user_id     = $user_id;
 		$this->description = $description;
