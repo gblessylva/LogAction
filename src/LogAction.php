@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LogAction;
 
 use Exception;
+use LogAction\Controllers\AdminMenuController;
 use LogAction\Database\DatabaseHandler;
 use LogAction\Utilities\EventLogger;
 
@@ -73,6 +74,8 @@ class LogAction
         // e.g., register hooks, setup event logging
         // add_action('init', [$this, 'setupHooks']);
         new EventLogger();
+        $adminMenuController = new AdminMenuController();
+        $adminMenuController->registerMenus();
     }
 
     /**
@@ -84,6 +87,9 @@ class LogAction
     {
         // Example: Log a message when a post is published
         // add_action('publish_post', [$this, 'logPostPublished']);
+       
+
+
     }
 
     

@@ -125,4 +125,125 @@ class DatabaseHandler
 
 		$wpdb->insert($table, $data);
 	}
+
+	/**
+	 * Get all logs months from table.
+	 *
+	 * @param array $data Associative array of log data.
+	 * @return $months
+	 */
+	public static function getAllMonths(){
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . self::TABLE_NAME;
+		$months = $wpdb->get_results("SELECT date FROM $table_name");
+		return $months;
+	}	
+
+	/**
+	 * Get all logs from table.
+	 *
+	 * @param array $data Associative array of log data.
+	 * @return $months
+	 */
+	public static function getAllLogs($order_clause, $logs_per_page, $offset) {
+		global $wpdb;
+	
+		$table_name = $wpdb->prefix . self::TABLE_NAME;
+	
+		// Add date filter condition if provided
+		$query = "SELECT * FROM $table_name {$order_clause} LIMIT $logs_per_page OFFSET $offset";
+
+		$logs = $wpdb->get_results($query);
+		
+		$total = self::getLogsCount();
+		
+		return ['logs'=>$logs, 'total'=>$total];
+	}
+		
+
+	/**
+	 * Get all logs count table.
+	 *
+	 * @param array $data Associative array of log data.
+	 * @return $months
+	 */
+	public static function getLogsCount( ){
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . self::TABLE_NAME;
+		$count = $wpdb->get_var("SELECT COUNT(*) FROM $table_name");
+		return $count;
+	}
+	 /**
+     * Generates a date filter SQL condition based on the month parameter.
+     *
+     * @param string $month_param The month parameter in "YYYYMM" format.
+     * @return string SQL condition for filtering by date.
+     */
+    public static function getDateFilter($month_param) {
+		if (empty($month_param) || $month_param === '0') {
+			return ''; // No filter if "All dates" is selected.
+		}
+	
+		// Extract year and month from the parameter
+		$year = substr(sanitize_text_field($month_param), 2, 2);
+		$month = substr(sanitize_text_field($month_param), 0, 2);
+		
+	
+		// Calculate the start date for the specified month
+		$start_date = "20{$year}-{$month}-01 00:00:00";
+		$timestamp = strtotime($start_date);
+		if ($timestamp === false) {
+			// If the date is invalid, return an empty string to skip the filter
+			return '';
+		}
+	
+		// Calculate the end date based on the start date
+		$end_date = date("Y-m-t 23:59:59", $timestamp);
+	
+		// Return the SQL date filter condition
+		return "AND date >= '{$start_date}' AND date <= '{$end_date}'";
+	}
+
+
+	public static function getLogsByMonth($month_param, $order_clause, $logs_per_page, $offset) {
+		global $wpdb;
+	
+		// Extract year and month from the parameter
+		$year = substr(sanitize_text_field($month_param), 2, 2);
+		$month = substr(sanitize_text_field($month_param), 0, 2);
+		// Calculate start and end date for the month
+		$start_date = "20{$year}-{$month}-01 00:00:00";
+		$timestamp = strtotime($start_date);
+		if ($timestamp === false) {
+			// If the date is invalid, return an empty string to skip the filter
+			return '';
+		}
+		$end_date = date("Y-m-t 23:59:59", strtotime($start_date));
+	
+		// Prepare the SQL query with date range filter, ordering, and pagination
+		$table_name = $wpdb->prefix . self::TABLE_NAME;
+		$query = $wpdb->prepare(
+			"SELECT * FROM {$table_name} WHERE date >= %s AND date <= %s {$order_clause} LIMIT %d OFFSET %d",
+			$start_date,
+			$end_date,
+			$logs_per_page,
+			$offset
+		);
+	
+		// Execute the query and return the results
+		$logs = $wpdb->get_results($query);
+		$count = $wpdb->get_var($wpdb->prepare(
+			"SELECT COUNT(*) FROM {$table_name} WHERE date >= %s AND date <= %s",
+			$start_date,
+			$end_date
+		));
+		$total = $count;
+		$result = ['logs'=>$logs, 'total'=>$total ];
+	
+		return $result;
+	}
+	
+	
 }
