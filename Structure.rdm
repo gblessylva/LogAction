@@ -7,7 +7,7 @@ logaction/
 ├── src/
 │   ├── Controllers/            # Handles main plugin functionalities
 │   │   ├── LogController.php
-│   │   └── SettingsController.php
+│   │   └── AdminController.php
 │   ├── Database/               # Database-related classes
 │   │   ├── DatabaseHandler.php # Trait or class for database operations
 │   │   └── LogEntry.php        # Log entry model
@@ -28,3 +28,7 @@ logaction/
 ├── vendor/                     # Composer dependencies (if needed)
 ├── logaction.php               # Plugin bootstrap file
 └── uninstall.php               # Cleanup script for plugin uninstallation
+rsync -av --progress . dist/ --exclude tests --exclude .git --exclude .github --exclude composer.json --exclude composer.lock --exclude phpunit.xml
+cd dist
+zip -r ../LogAction.zip .
+cd ..
