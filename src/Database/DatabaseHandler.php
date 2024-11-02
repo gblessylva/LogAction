@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LogAction\Database;
 
+use LogAction\Utilities\LogHelper;
 use wpdb;
 use Exception;
 
@@ -244,6 +245,38 @@ class DatabaseHandler
 	
 		return $result;
 	}
+
 	
+	// In DatabaseHandler class
+	public static function getLogsForExport(): array {
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'logaction_logs';
+		$month_param = isset($_GET['m']) ? sanitize_text_field($_GET['m']) : null;
+		
+		if($month_param){
+			$year = substr(sanitize_text_field($month_param), 2, 2);
+			$month = substr(sanitize_text_field($month_param), 0, 2);
+			// Calculate start and end date for the month
+			$start_date = "20{$year}-{$month}-01 00:00:00";
+			$timestamp = strtotime($start_date);
+			if ($timestamp === false) {
+				return [];
+			}
+			$end_date = date("Y-m-t 23:59:59", strtotime($start_date));
+			// Prepare and execute query
+			$logs = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT * FROM {$table_name} WHERE date >= %s AND date <= %s",
+					$start_date,
+					$end_date
+				)
+			);
+		}else{
+			$logs = $wpdb->get_results("SELECT * FROM {$table_name}");
+		}
+		
+		return $logs;
+	}
+
 	
 }

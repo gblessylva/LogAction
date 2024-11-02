@@ -8,6 +8,9 @@
  * @package LogAction
  */
 use LogAction\Database\DatabaseHandler;
+use LogAction\Hooks\LoadAdminScripts;
+// use LogAction\Utilities\LogExporter;
+use LogAction\Utilities\LogExporter;
 use LogAction\Utilities\LogHelper;
 
 defined('ABSPATH') || exit; // Exit if accessed directly
@@ -43,7 +46,9 @@ $logs = $result['logs'];
 $total_logs = $result['total'];
 $total_pages = ceil($total_logs / $logs_per_page);
 
-// Check if there are any logs
+
+
+
 if ($logs && !empty($logs)) : ?>
 	<div class="wrap">
 		<h1><?php esc_html_e('Logs', 'logaction'); ?></h1>
@@ -80,10 +85,19 @@ if ($logs && !empty($logs)) : ?>
 
 				<?php do_action('logaction_add_more_filter_fields');  ?>
 				<input type="submit" name="filter_action" id="post-query-submit" class="button" value="Filter">
-					<button type="button" name="clear_filters" id="clear-filters" class="button" value="Clear Filters"> <a href='<?php echo admin_url('admin.php?page=logaction_logs'); ?>'>Reset</a> </button>
+				<button type="button" name="clear_filters" id="clear-filters" class="button" value="Clear Filters"> 
+					<a href='<?php echo admin_url('admin.php?page=logaction_logs'); ?>'>Reset</a> 
+				</button>
+				
 			</div>
 			</form>
 			<div class="tablenav-pages one-page">
+				
+				<button type="button" name="export_logs" id="export_logs" class="button" value="Export"> 
+					Export 
+				</button>
+				<?php do_action('logaction_after_export_button');  ?>
+				
 				<span class="displaying-num"><?php echo count($logs); ?> of <?php echo $total_logs ?> item<?php echo count($logs) === 1 ? '' : 's'; ?></span>
 				
 			</div>
