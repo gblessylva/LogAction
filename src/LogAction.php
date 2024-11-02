@@ -8,6 +8,7 @@ use Exception;
 use LogAction\Controllers\AdminMenuController;
 use LogAction\Database\DatabaseHandler;
 use LogAction\Utilities\EventLogger;
+use LogAction\Hooks\LoadAdminScripts;
 
 /**
  * Class LogAction
@@ -74,6 +75,7 @@ class LogAction
         // e.g., register hooks, setup event logging
         // add_action('init', [$this, 'setupHooks']);
         new EventLogger();
+        new LoadAdminScripts();
         $adminMenuController = new AdminMenuController();
         $adminMenuController->registerMenus();
     }

@@ -141,7 +141,6 @@ class EventLogger
 		
 	}
 
-
 	
 	 /**
 	 * Log post published action.
