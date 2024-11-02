@@ -4,7 +4,7 @@ composer.lock
 
 
 # Ignore dist files
-/dist/
+
 
 # Ignore OS generated files
 .DS_Store
