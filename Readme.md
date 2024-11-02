@@ -8,7 +8,6 @@ LogAction is a powerful WordPress plugin that provides a detailed activity loggi
 - Filter logs by date and actions.
 - Export logs to CSV format.
 - Easy-to-use interface with customizable settings.
-- Bulk actions for efficient log management.
 
 ## Installation
 
@@ -31,9 +30,6 @@ Once activated, LogAction adds a new menu item in the WordPress admin panel. Cli
 - **Q: How do I access the logs?**
   - **A:** After activation, navigate to **LogAction > Logs** in your WordPress admin dashboard.
 
-- **Q: Can I filter the logs?**
-  - **A:** Yes, you can filter logs by date and action type using the provided filters on the logs page.
-
 - **Q: How do I export the logs?**
   - **A:** Click the **Export** button on the logs page to download the logs in CSV format.
 
@@ -50,19 +46,11 @@ Once activated, LogAction adds a new menu item in the WordPress admin panel. Cli
 - Improved UI for better user experience.
 
 ## Support
-For support, please visit the [LogAction Support Forum](https://example.com/support) or open an issue on our [GitHub repository](https://github.com/gblessylva/LogAction/issues).
+For support, please visit the [LogAction Support Forum](https://gblessylva.com/logaction/support) or open an issue on our [GitHub repository](https://github.com/gblessylva/LogAction/issues).
 
-## Contributing
-We welcome contributions! If you'd like to contribute to LogAction, please follow these steps:
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Make your changes and commit them.
-4. Push your branch and submit a pull request.
-
-For detailed contribution guidelines, please see the [CONTRIBUTING.md](https://github.com/gblessylva/LogAction/blob/main/CONTRIBUTING.md).
 
 ## License
 This plugin is licensed under the GPL v2 or later. See the [LICENSE](https://github.com/gblessylva/LogAction/blob/main/LICENSE) file for more information.
 
 ## Author
-**Your Name** - [Your Website Link](https://example.com)
+**Sylvanus Godbless - gblessylva** - [Website](https://gblessylva.com)
