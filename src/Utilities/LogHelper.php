@@ -32,28 +32,48 @@ class LogHelper
 		return "ORDER BY {$order_by} {$order}";
 	}
 	/**
-	 * Get the human-readable description for the action type.
-	 *
-	 * @param string $action The action type.
-	 * @return string The human-readable description of the action.
-	 */
-	public static function getReadableAction(string $action): string {
-		switch ($action) {
-			case 'post_published':
-				return 'Published Post';
-			case 'login':
-				return 'User Login';
-			case 'logout':
-				return 'User Logout';
-			case 'post_updated':
-				return 'Updated Post';
-			case 'register':
-				  return 'Updated Post';
-			// Add more cases as needed
-			default:
-				return 'Unknown Action'; // Default case for unknown actions
-		}
-	}
+ * Get the human-readable description for the action type.
+ *
+ * @param string $action The action type.
+ * @return string The human-readable description of the action.
+ */
+
+public static function getReadableAction(string $action): string {
+	// Define action descriptions in a static array
+	$action_labels = [
+		'post_published'      => 'Published Post',
+		'login'               => 'User Login',
+		'logout'              => 'User Logout',
+		'post_updated'        => 'Updated Post',
+		'register'            => 'User Registration',
+		'login_failed'        => 'Failed Login Attempt',
+		'password_retrieve'   => 'Password Retrieval Request',
+		'user_deleted'        => 'User Deletion',
+		'post_trashed'        => 'Trashed Post',
+		'page_trashed'        => 'Trashed Page',
+		'post_type_trashed'   => 'Trashed Custom Post Type',
+		'post_untrashed'      => 'Restored Post',
+		'page_untrashed'      => 'Restored Page',
+		'post_type_untrashed' => 'Restored Custom Post Type',
+		'post_deleted'        => 'Deleted Post',
+		'post_type_deleted'   => 'Deleted Custom Post Type',
+		'page_deleted'        => 'Deleted Page',
+		'comment_posted'      => 'Comment Posted',
+		'plugin_activated'    => 'Activated Plugin',
+		'plugin_deactivated'  => 'Deactivated Plugin',
+		'plugin_deleted'      => 'Deleted Plugin',
+		'theme_switched'      => 'Switched Theme',
+		'option_updated'      => 'Updated Option',
+		// Add more as needed
+	];
+
+	// Allow other plugins to filter and add custom action descriptions
+	$action_labels = apply_filters('logaction_readable_actions', $action_labels);
+
+	// Return the human-readable action or a default label for unknown actions
+	return $action_labels[$action] ?? 'Unknown Action';
+}
+
 
 	 /**
 	 * Convert a date to a human-readable date format.

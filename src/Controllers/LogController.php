@@ -27,6 +27,21 @@ class LogController implements LoggerInterface
 			}
 		}
 
+		if ($action === 'page_published' && $actionId !== null) {
+			$exists = DatabaseHandler::checkIfActionExists($action, $actionId);
+			if ($exists) {
+				return; // Exit if the log already exists
+			}
+		}
+
+		if ($action === 'post_type_published' && $actionId !== null) {
+			$exists = DatabaseHandler::checkIfActionExists($action, $actionId);
+			if ($exists) {
+				return; // Exit if the log already exists
+			}
+		}
+		
+
 		$data = [
 			'action' => $action,
 			'user_id' => $user_id,
@@ -37,22 +52,6 @@ class LogController implements LoggerInterface
 		DatabaseHandler::insertLog($data);
 	   
 	}
-	public function logNewAction(): void{
-		global $wpdb;
-		
-		$tableName = DatabaseHandler::$tableName;
-
-		$wpdb->insert(
-			$tableName,
-			[
-				'action' => 'post_published',
-				'user_id' => 1,
-				'description' => 'Here is a description',
-				'date' => current_time('mysql')// Get current time in MySQL format
-			]
-		);
-	}
-
 
 	public function getLogs(): array
 	{

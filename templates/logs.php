@@ -18,11 +18,11 @@ $table_name = $wpdb->prefix . 'logaction_logs'; // Adjust to your actual table n
 
 // Get current order by and order parameters
 $current_order_by = isset($_GET['orderby']) ? sanitize_text_field($_GET['orderby']) : 'date';
-$current_order = isset($_GET['order']) ? sanitize_text_field($_GET['order']) : 'ASC';
+$current_order = isset($_GET['order']) ? sanitize_text_field($_GET['order']) : 'DSC';
 
 // Get current page and set the number of logs per page
 $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
-$logs_per_page = 2; // Change this to set how many logs per page
+$logs_per_page = 10; // Change this to set how many logs per page
 $offset = ($current_page - 1) * $logs_per_page;
 
 // Prepare the order clause for the SQL query

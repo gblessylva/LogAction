@@ -144,9 +144,9 @@ class DatabaseHandler
 	 * Get all logs from table.
 	 *
 	 * @param array $data Associative array of log data.
-	 * @return $months
+	 * @return array
 	 */
-	public static function getAllLogs($order_clause, $logs_per_page, $offset) {
+	public static function getAllLogs($order_clause, $logs_per_page, $offset) : array {
 		global $wpdb;
 	
 		$table_name = $wpdb->prefix . self::TABLE_NAME;
@@ -181,7 +181,7 @@ class DatabaseHandler
      * @param string $month_param The month parameter in "YYYYMM" format.
      * @return string SQL condition for filtering by date.
      */
-    public static function getDateFilter($month_param) {
+    public static function getDateFilter($month_param) : string {
 		if (empty($month_param) || $month_param === '0') {
 			return ''; // No filter if "All dates" is selected.
 		}
@@ -207,7 +207,7 @@ class DatabaseHandler
 	}
 
 
-	public static function getLogsByMonth($month_param, $order_clause, $logs_per_page, $offset) {
+	public static function getLogsByMonth($month_param, $order_clause, $logs_per_page, $offset) : array {
 		global $wpdb;
 	
 		// Extract year and month from the parameter
