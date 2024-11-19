@@ -35,7 +35,8 @@
         "post-install-cmd": [
             "composer dump-autoload"
         ],
-        "test": "phpunit --configuration phpunit.xml"
+        "test": "phpunit --configuration phpunit.xml",
+        "phpcs": "phpcs --standard=phpcs.xml ."
     },
     "extra": {
         "installer-paths": {

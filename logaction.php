@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: LogAction - Activity Log Plugin
+ * Plugin Name: LogAction : Logs all user Activities
  * Plugin URI: https://gblessylva.com/logaction
  * Description: Logs various WordPress actions to help site administrators monitor user activity and system events.
  * Version: 1.0.0
@@ -10,25 +10,30 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: logaction
  * Domain Path: /languages
+ *
+ * @package logaction
  */
 
-defined('ABSPATH') || exit; // Exit if accessed directly
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
-// Autoload Classes
-require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
+// Autoload Classes.
+require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
-// Use the main plugin namespace
+
+
+// Use the main plugin namespace.
 use LogAction\LogAction;
 
-// Run plugin activation and deactivation hooks
-register_activation_hook(__FILE__, ['LogAction\LogAction', 'activate']);
-register_deactivation_hook(__FILE__, ['LogAction\LogAction', 'deactivate']);
+
+// Run plugin activation and deactivation hooks.
+register_activation_hook( __FILE__, array( 'LogAction\LogAction', 'activate' ) );
+register_deactivation_hook( __FILE__, array( 'LogAction\LogAction', 'deactivate' ) );
 
 /**
  * Initializes the plugin.
  */
 function logaction_initialize_plugin() {
-    $plugin = LogAction::getInstance();
-    $plugin->init();
+	$plugin = LogAction::get_logaction_instance();
+	$plugin->init();
 }
-add_action('plugins_loaded', 'logaction_initialize_plugin');
+add_action( 'plugins_loaded', 'logaction_initialize_plugin' );

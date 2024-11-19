@@ -1,4 +1,4 @@
- // Function to get URL parameters
+ // Function to get URL parameters.
  function getUrlParameter(name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -8,7 +8,7 @@
 
 jQuery(document).ready(function($) {
    
-    // Set selectedMonth from the URL parameter 'm'
+    // Set selectedMonth from the URL parameter 'm'.
     const selectedMonth = getUrlParameter('m');
 
     $('#export_logs').on('click', function() {
@@ -18,19 +18,19 @@ jQuery(document).ready(function($) {
             type: 'GET',
             data: {
                 action: 'export_logs',
-                m: selectedMonth // Action hook
+                m: selectedMonth // Action hook.
             },
             xhrFields: {
-                responseType: 'blob' // Expect a binary response
+                responseType: 'blob' // Expect a binary response.
            
             },
             success: function(data, status, xhr) {
-                // Create a URL for the blob and trigger a download
+                // Create a URL for the blob and trigger a download.
                 const url = window.URL.createObjectURL(data);
                 const a = document.createElement('a');
                 a.href = url;
                 const date = new Date();
-                const formattedDate = date.toISOString().slice(0, 10); // YYYY-MM-DD format
+                const formattedDate = date.toISOString().slice(0, 10); // YYYY-MM-DD format.
                 const hours = date.getHours();
                 const minutes = date.getMinutes().toString().padStart(2, '0');
                 const amPm = hours >= 12 ? 'PM' : 'AM';
