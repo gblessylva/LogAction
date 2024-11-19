@@ -1,0 +1,76 @@
+#wpbody-content > div.wrap > div.tablenav-pages.logs-footer-nav{
+    padding: 10px 5px;
+    font-size: 13px;
+    margin-top: 10px;
+    background: #f0f0f1;
+    color: #3c434a;
+    line-height: 1.4em;
+}
+#wpbody-content > div.wrap > div.tablenav-pages.logs-footer-nav > span > span{
+    
+    border-radius: 4px;
+    border: 1px solid #8c8f94;
+    background-color: #fff;
+    color: #2c3338;
+    margin: 10px;
+    font-size: 13px;
+    padding: 10px;
+    text-align: center;
+}
+#wpbody-content > div.wrap > div.tablenav-pages.logs-footer-nav > span > a{
+    background: #f0f0f1;
+    color: #3c434a;
+    line-height: 1.4em;
+    margin: 10px 2px;
+    text-decoration: none;
+    border: 1px solid #f0f0f1;
+    padding: 10px;
+}
+
+#wpbody-content > div.wrap > div.tablenav-pages.logs-footer-nav > span > a:hover{
+    border-radius: 4px;
+    border: 1px solid #8c8f94;
+    background-color: #fff;
+    color: #2c3338;
+    /* margin: 10px; */
+    font-size: 13px;
+    padding: 10px;
+    text-align: center;
+}
+#wpbody-content > div.wrap > table > tbody > tr > td > div{
+    display: flex;
+    align-items: center;
+}
+#wpbody-content > div.wrap > table > tbody > tr > td > div > img{
+    height: 30px;
+    margin-right: 5px;
+}
+form.logaction-settings-form > table > tbody >
+tr{
+    border-radius: 5px;
+    padding:10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.danger-zone{
+    border: 1px solid red;
+   
+}
+tr.danger-zone > th{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+tr.danger-zone > th > p{
+font-weight: 200;
+}
+#empty-logs{
+    /* border: 1px solid red; */
+    color: rgba(255, 0, 0, 0.567);
+    border-color:rgba(255, 0, 0, 0.567);
+}
+th > span{
+    font-weight: 200;
+    display: block;
+}

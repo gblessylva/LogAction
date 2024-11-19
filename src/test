@@ -1,0 +1,11 @@
+<?php
+					$pagination_base = admin_url('admin.php?page=logaction_logs&orderby=' . $current_order_by . '&order=' . $current_order . '&paged=%#%');
+					echo paginate_links([
+					'base' => $pagination_base,
+								'format' => '',
+								'current' => $current_page,
+								'total' => $total_pages,
+								'prev_text' => __('« Previous', 'logaction'),
+								'next_text' => __('Next »', 'logaction'),
+							]);
+					?>

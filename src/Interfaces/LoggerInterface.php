@@ -1,4 +1,11 @@
 <?php
+/**
+ * The Interface for Logger.
+ *
+ * @package logaction
+ * @author GBLESSYLVA <gblessylva@gmail.com>
+ * @since 1.0.0.
+ */
 
 declare(strict_types=1);
 
@@ -11,22 +18,14 @@ use LogAction\Events\UserEvent;
  *
  * Defines the contract for logging actions within the LogAction plugin.
  */
-interface LoggerInterface
-{
+interface LoggerInterface {
 	/**
 	 * Logs an action event.
 	 *
-	 * @param UserEvent $event The event to be logged
+	 * @param UserEvent $event The event to be logged.
 	 */
-	public function logAction(UserEvent $event): void;
+	public function log_user_action( UserEvent $event ): void;
 
-
-	/**
-	 * Retrieves log entries from the system.
-	 *
-	 * @return array An array of log entries.
-	 */
-	public function getLogs(): array;
 
 	/**
 	 * Deletes log entries older than a specified date.
@@ -34,5 +33,12 @@ interface LoggerInterface
 	 * @param string $date The cutoff date in Y-m-d format.
 	 * @return void
 	 */
-	public function deleteOldLogs(string $date): void;
+	public function delete_logs_by_date( string $date ): void;
+
+	/**
+	 * Deletes old logs by date.
+	 *
+	 * @param array $log_ids Date of selected delete.
+	 */
+	public function delete_logs_by_id( array $log_ids ): void;
 }

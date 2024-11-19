@@ -1,4 +1,12 @@
 <?php
+/**
+ * The Interface for Admin Menu.
+ *
+ * @package logaction
+ * @author GBLESSYLVA <gblessylva@gmail.com>
+ * @since 1.0.0.
+ */
+
 declare(strict_types=1);
 
 namespace LogAction\Events;
