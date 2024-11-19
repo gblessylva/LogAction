@@ -1,6 +1,6 @@
 <?php
 /**
- * The main plugin class for the LogAction - Activity Log Plugin.
+ * The main plugin class for the LogAction - Activity Logs for Admin.
  *
  * @package logaction
  * @author GBLESSYLVA <gblessylva@gmail.com>

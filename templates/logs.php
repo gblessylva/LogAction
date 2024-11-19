@@ -54,13 +54,10 @@ $total_pages = ceil( $total_logs / $logs_per_page );
 if ( $logs && ! empty( $logs ) ) : ?>
 	<div class="wrap">
 		<h1><?php esc_html_e( 'Logs', 'logaction' ); ?> </h1>
-		<?php var_dump( OptionsHandler::is_admin_user() ); ?>
 		<div class="tablenav top">
 			<?php
 			if ( OptionsHandler::is_bulk_delete_enabled() ) {
-				if ( OptionsHandler::is_only_admin_delete_logs_enabled() ) {
-					return "";
-				}
+
 				?>
 				<div class="alignleft actions bulkactions">
 				<label for="bulk-action-selector-top" class="screen-reader-text">Select bulk action</label>
@@ -73,12 +70,10 @@ if ( $logs && ! empty( $logs ) ) : ?>
 			</div>
 		<?php } ?>
 			<form method="get" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>">
-				<?php echo OptionsHandler::is_admin_user(); ?>
 				<!-- Hidden fields to keep the page, orderby, and order parameters -->
 				<input type="hidden" name="page" value="logaction_logs">
 				<input type="hidden" name="orderby" value="<?php echo esc_attr( $current_order_by ); ?>">
 				<input type="hidden" name="order" value="<?php echo esc_attr( $current_order ); ?>">
-
 			<div class="alignleft actions">
 				<label for="filter-by-date" class="screen-reader-text">Filter by date</label>
 				<select name="m" id="filter-by-date">
@@ -210,14 +205,16 @@ if ( $logs && ! empty( $logs ) ) : ?>
 				<span class="pagination-links">
 				<?php
 					$pagination_base = admin_url( 'admin.php?page=logaction_logs&orderby=' . $current_order_by . '&order=' . $current_order . '&paged=%#%' );
-						echo paginate_links(
-							array(
-								'base'      => $pagination_base,
-								'format'    => '',
-								'current'   => $current_page,
-								'total'     => $total_pages,
-								'prev_text' => __( '« Previous', 'logaction' ),
-								'next_text' => __( 'Next »', 'logaction' ),
+						echo wp_kses_post(
+							paginate_links(
+								array(
+									'base'      => $pagination_base,
+									'format'    => '',
+									'current'   => $current_page,
+									'total'     => $total_pages,
+									'prev_text' => __( '« Previous', 'logaction' ),
+									'next_text' => __( 'Next »', 'logaction' ),
+								)
 							)
 						);
 				?>

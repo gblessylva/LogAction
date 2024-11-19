@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: LogAction : Logs all user Activities
+ * Plugin Name: LogAction - Activity Logs for Admin
  * Plugin URI: https://gblessylva.com/logaction
  * Description: Logs various WordPress actions to help site administrators monitor user activity and system events.
  * Version: 1.0.0

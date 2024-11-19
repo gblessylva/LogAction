@@ -25,12 +25,37 @@
 			</tr>
 			<tr>
 				<th scope="row">
-					<label for="only_admin_delete_logs"><?php echo esc_html__( 'Only Admins Can Delete Logs', 'logaction' ); ?></label>
+					<label for="allow_users_view_logs"><?php echo esc_html__( 'Allow other users to view logs', 'logaction' ); ?></label>
 				</th>
 				<td>
-					<input type="checkbox" id="only_admin_delete_logs" name="only_admin_delete_logs" value="1" <?php checked( get_option( 'only_admin_delete_logs' ), 1 ); ?>>
+					<input type="checkbox" id="allow_users_view_logs" name="allow_users_view_logs" value="1" <?php checked( get_option( 'allow_users_view_logs' ), 1 ); ?>>
 				</td>
 			</tr>
+
+			<tr id="user-view-options" style="margin-top: 10px;">
+				<th scope="row">
+					<label for="user_roles"><?php echo esc_html__( 'Select user roles allowed to view logs', 'logaction' ); ?></label>
+				</th>
+				<td>
+				<label for="user_roles"><?php echo esc_html__( 'Select user roles allowed to view logs', 'logaction' ); ?></label>
+				<select id="user_roles" name="user_roles[]" class="form-select" multiple style="width: 100%;">
+					<?php
+					$editable_roles = get_editable_roles();
+					$selected_roles = (array) get_option( 'user_roles', array() );
+
+					foreach ( $editable_roles as $role => $details ) {
+						if ( 'administrator' === $role ) {
+							continue;
+						}
+						$role_name = translate_user_role( $details['name'] );
+						$selected  = in_array( $role, $selected_roles ) ? 'selected' : '';
+						echo "<option value='" . esc_attr( $role ) . "' $selected>" . esc_html( $role_name ) . '</option>';
+					}
+					?>
+				</select>
+				</td>
+			</tr>
+
 			<tr>
 				<th scope="row">
 					<label for="delete_logs_after_days"><?php echo esc_html__( 'Delete Logs after 30 days', 'logaction' ); ?></label>
@@ -49,11 +74,11 @@
 			</tr>
 			<tr>
 				<th scope="row">
-					<label for="restrict_log_access"><?php echo esc_html__( 'Restrict access to logs.', 'logaction' ); ?></label>
-					<span><?php echo esc_html__( 'None Admin Users will be able to view only their logs, but not other users logs.', 'logaction' ); ?></span>
+					<label for="keep_my_log_data"><?php echo esc_html__( 'Keep My Logs Data.', 'logaction' ); ?></label>
+					<span><?php echo esc_html__( 'Keeps your Logs Table and settings after plugin uninstall', 'logaction' ); ?></span>
 				</th>
 				<td>
-					<input type="checkbox" id="restrict_log_access" name="restrict_log_access" value="1" <?php checked( get_option( 'restrict_log_access' ), 1 ); ?>>
+					<input type="checkbox" id="keep_my_log_data" name="keep_my_log_data" value="1" <?php checked( get_option( 'keep_my_log_data' ), 1 ); ?>>
 				</td>
 			</tr>
 		</table>
