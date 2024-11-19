@@ -16,6 +16,7 @@ use LogAction\Controllers\AdminMenuController;
 use LogAction\Database\DatabaseHandler;
 use LogAction\Utilities\EventLogger;
 use LogAction\Hooks\LoadAdminScripts;
+use LogAction\Utilities\Cronjob;
 
 /**
  * Class LogAction.
@@ -77,6 +78,7 @@ class LogAction {
 		new LoadAdminScripts();
 		$admin_menu_controller = new AdminMenuController();
 		$admin_menu_controller->register_log_menus();
+		new Cronjob();
 	}
 
 	/**

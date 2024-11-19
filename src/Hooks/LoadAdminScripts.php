@@ -14,6 +14,8 @@ namespace LogAction\Hooks;
 use LogAction\Database\DatabaseHandler;
 use LogAction\Utilities\Configs;
 use LogAction\Utilities\LogExporter;
+use PSpell\Config;
+
 /**
  * Load script class.
  */
@@ -68,10 +70,21 @@ class LoadAdminScripts {
 			),
 		);
 		// Bootstrap CSS (for modal and other components).
-		wp_enqueue_style( 'bootstrap-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css', array(), '4.5.2' );
+		wp_enqueue_style(
+			'bootstrap-css',
+			'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css',
+			array(),
+			Configs::VERSION
+		);
 
 		// Bootstrap JS (includes modal functionality).
-		wp_enqueue_script( 'bootstrap-js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js', array( 'jquery' ), '4.5.2', true );
+		wp_enqueue_script(
+			'bootstrap-js',
+			'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js',
+			array( 'jquery' ),
+			Configs::VERSION,
+			true
+		);
 
 		// jQuery (WordPress includes jQuery by default).
 		wp_enqueue_script( 'jquery' );
@@ -131,8 +144,7 @@ class LoadAdminScripts {
 	public function delete_all_logs(): void {
 		check_ajax_referer( 'delete_logs_nonce', '_wpnonce' );
 
-		// $result = DatabaseHandler::delete_all_logs();
-		$result = false;
+		$result = DatabaseHandler::delete_all_logs();
 
 		if ( false === $result ) {
 			wp_send_json_error( 'Failed to delete logs.' );
