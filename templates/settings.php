@@ -5,8 +5,33 @@
  * @package logaction
  */
 
+namespace LogAction\Utilities;
+
+use LogAction\Utilities\GetProgressBar;
+
+GetProgressBar::render_progress_loader();
 ?>
+
 <div class = 'wrap'>
+	<div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="warningModalLabel">Confirm Log Deletion</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					Are you sure you want to delete all logs? This action is irreversible.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					<button type="button" id="confirm-delete-logs" class="btn btn-danger">Delete Logs</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<h1> <?php echo esc_html__( 'LogAction Settings', 'logaction' ); ?></h1>
 	<p><?php echo esc_html__( 'Configure the settings for the LogAction plugin. Use the options below to manage logs effectively.', 'logaction' ); ?></p>
 	<form method="post" action="options.php" class="logaction-settings-form">

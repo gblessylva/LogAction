@@ -25,6 +25,7 @@ class LoadAdminScripts {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_logaction_scripts' ) );
 		add_action( 'wp_ajax_export_logs', array( $this, 'export_logs' ) );
 		add_action( 'wp_ajax_delete_selected_logs', array( $this, 'delete_selected_logs' ) );
+		add_action( 'wp_ajax_delete_all_logs', array( $this, 'delete_all_logs' ) );
 	}
 
 	/**
@@ -66,6 +67,14 @@ class LoadAdminScripts {
 				'nonce'    => wp_create_nonce( 'delete_logs_nonce' ),
 			),
 		);
+		// Bootstrap CSS (for modal and other components).
+		wp_enqueue_style( 'bootstrap-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css', array(), '4.5.2' );
+
+		// Bootstrap JS (includes modal functionality).
+		wp_enqueue_script( 'bootstrap-js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js', array( 'jquery' ), '4.5.2', true );
+
+		// jQuery (WordPress includes jQuery by default).
+		wp_enqueue_script( 'jquery' );
 	}
 	/**
 	 * Handle the export logs AJAX request.
@@ -112,5 +121,23 @@ class LoadAdminScripts {
 		}
 
 		wp_die();
+	}
+
+	/**
+	 * Deletes all Logs in the DB using AJAX request.
+	 *
+	 * @return void
+	 */
+	public function delete_all_logs(): void {
+		check_ajax_referer( 'delete_logs_nonce', '_wpnonce' );
+
+		// $result = DatabaseHandler::delete_all_logs();
+		$result = false;
+
+		if ( false === $result ) {
+			wp_send_json_error( 'Failed to delete logs.' );
+		} else {
+			wp_send_json_success( "Deleted {$result} logs." );
+		}
 	}
 }

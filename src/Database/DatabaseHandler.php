@@ -234,8 +234,8 @@ class DatabaseHandler {
 		}
 		$end_date = date( 'Y-m-t 23:59:59', strtotime( $start_date ) );
 		// Prepare the SQL query with date range filter, ordering, and pagination.
-		$table      = Configs::$logaction_table;
-		$query      = $wpdb->prepare(
+		$table = Configs::$logaction_table;
+		$query = $wpdb->prepare(
 			"SELECT * FROM {$table} WHERE date >= %s AND date <= %s {$order_clause} LIMIT %d OFFSET %d",
 			$start_date,
 			$end_date,
@@ -327,6 +327,30 @@ class DatabaseHandler {
 		);
 
 		// Execute the query.
+		$result = $wpdb->query( $query );
+
+		// Return the number of rows deleted, or false on failure.
+		return $result;
+	}
+
+	/**
+	 * A function to delete all logs. Does not drop the table.
+	 *
+	 * @return int|false The number of rows deleted, or false on failure.
+	 */
+	public static function delete_all_logs() {
+		global $wpdb;
+
+		$table = Configs::$logaction_table;
+
+		// Check if the table exists.
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) !== $table ) {
+			return false; // Table does not exist.
+		}
+
+		// Prepare and execute the DELETE query.
+		$query = "DELETE FROM {$table}";
+
 		$result = $wpdb->query( $query );
 
 		// Return the number of rows deleted, or false on failure.
