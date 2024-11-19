@@ -1,4 +1,4 @@
-# LogAction - Activity Log Plugin
+# LogAction - Activity Logs for Admin
 
 ## Description
 LogAction is a powerful WordPress plugin that provides a detailed activity logging system for your website. It tracks user actions, changes, and events, allowing site administrators to monitor activity, enhance security, and improve user experience. With an intuitive interface and customizable features, LogAction makes managing your site's activity a breeze.
@@ -47,6 +47,32 @@ Once activated, LogAction adds a new menu item in the WordPress admin panel. Cli
 
 ## Support
 For support, please visit the [LogAction Support Forum](https://gblessylva.com/logaction/support) or open an issue on our [GitHub repository](https://github.com/gblessylva/LogAction/issues).
+
+## Supported Hooks
+``add_filter( 'logaction_role_hierarchy', function ( $hierarchy ) {
+    // Add a custom role "super_contributor" between "contributor" and "author".
+    $hierarchy['super_contributor'] = 2.5;
+
+    return $hierarchy;
+});``
+Add new Action
+``add_filter( 'logaction_readable_actions', function ( $actions ) {
+    $actions['file_uploaded'] = 'File Uploaded';
+
+    return $actions;
+});
+``
+
+Modify existing action.
+``add_filter( 'logaction_readable_actions', function ( $actions ) {
+    // Modify an existing action description.
+    if ( isset( $actions['login'] ) ) {
+        $actions['login'] = 'User Logged In';
+    }
+
+    // Return the modified actions array.
+    return $actions;
+});``
 
 
 ## License

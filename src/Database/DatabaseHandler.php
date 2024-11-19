@@ -121,8 +121,8 @@ class DatabaseHandler {
 	public static function get_all_months() {
 		global $wpdb;
 
-		$table = esc_sql( Configs::$logaction_table );
-		$months     = $wpdb->get_results( "SELECT date FROM $table" );
+		$table  = esc_sql( Configs::$logaction_table );
+		$months = $wpdb->get_results( "SELECT date FROM $table" );
 		return $months;
 	}
 
@@ -270,8 +270,12 @@ class DatabaseHandler {
 	public static function get_logs_for_export(): array {
 		global $wpdb;
 		$table = Configs::$logaction_table;
+		if ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( \wp_unslash( $_GET['_wpnonce'] ) ), 'export_logs_nonce' ) ) {
+			wp_create_nonce( 'export_logs_nonce' );
+		}
+
 		// Nounce already checked on export_all_logs ajax function.
-		$month_param = isset( $_GET['m'] ) ? sanitize_text_field( $_GET['m'] ) : null;
+		$month_param = isset( $_GET['m'] ) ? sanitize_text_field( \wp_unslash( $_GET['m'] ) ) : null;
 
 		if ( $month_param ) {
 			$year  = substr( sanitize_text_field( $month_param ), 2, 2 );
@@ -279,7 +283,7 @@ class DatabaseHandler {
 			// Calculate start and end date for the month.
 			$start_date = "20{$year}-{$month}-01 00:00:00";
 			$timestamp  = strtotime( $start_date );
-			if ( $timestamp === false ) {
+			if ( false === $timestamp ) {
 				return array();
 			}
 			$end_date = date( 'Y-m-t 23:59:59', strtotime( $start_date ) );

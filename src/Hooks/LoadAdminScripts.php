@@ -86,7 +86,9 @@ class LoadAdminScripts {
 	 * @return void
 	 */
 	public function delete_selected_logs(): void {
-		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( \wp_unslash( $_POST['_wpnonce'] ), 'delete_logs_nonce' ) ) {
+		if ( ! isset( $_POST['_wpnonce'] ) ||
+		! wp_verify_nonce( sanitize_text_field( \wp_unslash( $_POST['_wpnonce'] ) ), 'delete_logs_nonce' )
+		) {
 			wp_send_json_error( 'Invalid nonce', 403 );
 		}
 

@@ -48,4 +48,20 @@ jQuery(document).ready(function ($) {
 
 
     })
+
+
+    // Handles UI Script
+    const $checkbox = $('#allow_users_view_logs');
+    const $userViewOptions = $('#user-view-options');
+    function toggleUserViewOptions() {
+        if ($checkbox.is(':checked')) {
+            $userViewOptions.show();
+        } else {
+            $userViewOptions.hide();
+        }
+    }
+
+    // Attach event listener to the checkbox
+    $checkbox.on('change', toggleUserViewOptions);
+    toggleUserViewOptions();
 })
