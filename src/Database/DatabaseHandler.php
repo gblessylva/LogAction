@@ -356,4 +356,30 @@ class DatabaseHandler {
 		// Return the number of rows deleted, or false on failure.
 		return $result;
 	}
+
+	/**
+	 * A function to delete all logs after 30 Days. Does not drop the table.
+	 *
+	 * @return int|false The number of rows deleted, or false on failure.
+	 */
+	public static function delete_logs_after_30_days() {
+		global $wpdb;
+
+		$table = Configs::$logaction_table;
+
+		// Calculate the date 30 days ago.
+		$date_30_days_ago = date( 'Y-m-d H:i:s', strtotime( '-30 days' ) );
+
+		// Prepare the query to delete logs older than 30 days.
+		$query = $wpdb->prepare(
+			"DELETE FROM {$table} WHERE log_date < %s",
+			$date_30_days_ago
+		);
+
+		// Execute the query.
+		$result = $wpdb->query( $query );
+
+		// Return the number of rows deleted, or false on failure.
+		return $result;
+	}
 }
