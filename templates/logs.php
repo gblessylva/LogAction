@@ -11,6 +11,8 @@
 use LogAction\Database\DatabaseHandler;
 use LogAction\Utilities\LogHelper;
 use LogAction\Utilities\OptionsHandler;
+use LogAction\Utilities\GetProgressBar;
+
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -19,6 +21,7 @@ global $wpdb;
 $table_name = $wpdb->prefix . 'logaction_logs';
 $nonce      = wp_create_nonce( 'logaction_action_nounce' );
 
+GetProgressBar::render_progress_loader();
 
 if ( wp_verify_nonce( $nonce, 'logaction_action_nounce' ) ) {
 	$month_param = isset( $_GET['m'] ) ? sanitize_text_field( wp_unslash( $_GET['m'] ) ) : '';
