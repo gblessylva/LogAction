@@ -46,21 +46,31 @@ class DatabaseHandler {
 	 */
 	public static function create_logaction_table(): void {
 		global $wpdb;
-		$sql = 'CREATE TABLE IF NOT EXISTS ' . Configs::$logaction_table . ' (
+
+		// Define the table name and charset collate.
+		$table_name      = Configs::$logaction_table;
+		$charset_collate = $wpdb->get_charset_collate();
+
+		// Correct SQL query.
+		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
 			id mediumint(9) NOT NULL AUTO_INCREMENT,
 			action varchar(255) NOT NULL,
 			user_id bigint(20) NOT NULL,
 			action_id bigint(20),
 			date datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
 			description text NOT NULL,
-			PRIMARY KEY  (id)
-		) $wpdb->get_charset_collate();';
+			PRIMARY KEY (id)
+		) $charset_collate;";
 
+		// Include the WordPress upgrade library.
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
 		try {
+			// Execute the query using dbDelta.
 			dbDelta( $sql );
 		} catch ( Exception $e ) {
-			throw new Exception( 'Failed to create database table for logging actions.' . esc_html( $e->getMessage() ) );
+			// Handle exception.
+			throw new Exception( 'Failed to create database table for logging actions: ' . esc_html( $e->getMessage() ) );
 		}
 	}
 
