@@ -38,13 +38,12 @@ class EventLogger {
 	 */
 	private function register_hooks(): void {
 		add_action( 'wp_login', array( $this, 'log_user_login' ), 10, 2 );
-		add_action( 'wp_logout', array( $this, 'log_user_logout' ) );
+		add_action( 'clear_auth_cookie', array( $this, 'log_user_logout' ), 5 );
 		add_action( 'user_register', array( $this, 'log_user_registration' ), 10, 1 );
 		add_action( 'wp_login_failed', array( $this, 'log_login_failed' ) );
 		add_action( 'retrieve_password', array( $this, 'log_retrieve_password' ) );
 		add_action( 'delete_user', array( $this, 'log_user_deletion' ), 10, 1 );
 
-		add_action( 'delete_user', array( $this, 'log_user_deletion' ), 10, 1 );
 
 		add_action( 'trash_post', array( $this, 'log_post_trashed' ), 10, 1 );
 		add_action( 'untrash_post', array( $this, 'log_post_untrashed' ), 10, 1 );
@@ -84,20 +83,32 @@ class EventLogger {
 	 */
 	public function log_user_logout(): void {
 		$user = wp_get_current_user();
-		if ( $user->ID ) {
+
+		// Ensure the user is valid
+		if ( isset( $user->ID ) && $user->ID > 0 ) {
 			try {
+				$user_id = (int) $user->ID;
+
+				// Create a logout event
 				$event = new UserEvent(
 					'logout',
-					(int) $user->ID,
+					$user_id,
 					'User logged out successfully',
-					$$user->ID
+					$user_id
 				);
+
+				// Log the event
 				$this->log_controller->log_user_action( $event );
 			} catch ( \Exception $e ) {
-				wp_die( 'LogAction Plugin: Failed to log user login info - ' . \esc_html( $e->getMessage() ) );
+				// Handle exceptions and escape the error message
+				wp_die(
+					'LogAction Plugin: Failed to log user logout info - ' .
+					esc_html( $e->getMessage() )
+				);
 			}
 		}
 	}
+
 	/**
 	 * Handles logging all User registration activities.
 	 *
@@ -118,13 +129,24 @@ class EventLogger {
 		}
 	}
 	/**
-	 * Handles logging all Faileds user login activities.
+	 * Handles logging all Failed user login activities.
 	 *
-	 * @param int $user_id User Id Param.
+	 * @param string $user Username or User object.
 	 * @return void
 	 */
-	public function log_login_failed( int $user_id ): void {
+	public function log_login_failed( string $user ): void {
 		try {
+			// Determine user ID or handle the case where $user is invalid.
+			$user_id = 0; // Default to 0 if the user is not valid.
+
+			if ( is_object( $user ) && isset( $user->ID ) ) {
+				$user_id = (int) $user->ID;
+			} elseif ( is_string( $user ) && username_exists( $user ) ) {
+				$user_data = get_user_by( 'login', $user );
+				$user_id   = $user_data ? (int) $user_data->ID : 0;
+			}
+
+			// Log the failed login event.
 			$event = new UserEvent(
 				'login_failed',
 				$user_id,
@@ -132,19 +154,29 @@ class EventLogger {
 				$user_id
 			);
 			$this->log_controller->log_user_action( $event );
+
 		} catch ( \Exception $e ) {
-			wp_die( 'LogAction Plugin: Failed to failed login info - ' . \esc_html( $e->getMessage() ) );
+			wp_die( 'LogAction Plugin: Failed to log failed login info - ' . \esc_html( $e->getMessage() ) );
 		}
 	}
 
 	/**
 	 * Handles logging all retrieved passowrd activities.
 	 *
-	 * @param int $user_id User Id Param.
+	 * @param string $user The user Object.
 	 * @return void
 	 */
-	public function log_retrieve_password( int $user_id ): void {
+	public function log_retrieve_password( string $user ): void {
 		try {
+			// Determine user ID or handle the case where $user is invalid.
+			$user_id = 0; // Default to 0 if the user is not valid.
+
+			if ( is_object( $user ) && isset( $user->ID ) ) {
+				$user_id = (int) $user->ID;
+			} elseif ( is_string( $user ) && username_exists( $user ) ) {
+				$user_data = get_user_by( 'login', $user );
+				$user_id   = $user_data ? (int) $user_data->ID : 0;
+			}
 			$event = new UserEvent(
 				'password_retrieve',
 				$user_id,
