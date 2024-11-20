@@ -10,7 +10,6 @@
 namespace LogAction\Utilities;
 
 use LogAction\Database\DatabaseHandler;
-use WP_Query;
 
 /**
  * Utility class for logs.
